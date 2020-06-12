@@ -15,25 +15,14 @@
     var header = $("<h3>");
 
     var storedAppointments = JSON.parse(localStorage.getItem("appointment"));
-    // console.log(Object.values(storedAppointments));
-
-    // console.log(storedAppointments.index);
-    // console.log(typeof(storedAppointments.index));
-    // console.log(typeof(storedAppointments));
-    // console.log(storedAppointments.length);
-    // console.log (Object.values(storedAppointments));
-    // var arrstoredAppointments = Object.values(storedAppointments);
-    // console.log(typeof(arrstoredAppointments));
-    //  var x = storedAppointments.toString();
-    //  var y = x.charAt(11);
-    //  var z = parseInt(y);
-    //  console.log(storedAppointments.length, y,z);
-// appends current date //
+ // appends current date //
 
     header.text(currentDay);
     jumbo.append(header);
 
 // main processing to render the calendar and shade where appropriate //
+
+// determines AM or PM and after 12PM, changes to 1PM //
 
     for (var i = 0; i<9; i++){  
         if(counter>11){
@@ -54,7 +43,7 @@
             newHourText = hourText + mornAfter + ""
         }
 
-        
+    // adding elements and buttons and inputs //    
         
         var hourEntries = $("<div>");
       
@@ -73,6 +62,8 @@
         saveBtn.append(iTag)
         hourEntries.append(saveBtn);
         hoursOfDay.append(hourEntries);
+
+    // shading depending upon the hour //
 
         if (presentCounter === currentHour)
         {textArea.addClass("present")
@@ -105,11 +96,6 @@
         
         var saveData = abc +" - " +parentIndex ;
 
-        // var saveData = { text: abc, index: parentIndex};
-
-
-
-        // localStorage.setItem('appointment', JSON.stringify(saveData) )
 
 
         var existStorage = JSON.parse(localStorage.getItem("appointment"));
