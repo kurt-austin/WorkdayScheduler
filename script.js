@@ -6,6 +6,7 @@
     var hoursOfDay = $(".container");
     var counter = 9;
     var presentCounter = 9;
+    var idxCounter = 0;
     var mornAfter = "AM";
     var hourText;
     var newHourText;
@@ -13,8 +14,12 @@
     var currentDay = moment().format("MMMM Do YYYY");
     var jumbo = $(".jumbotron");
     var header = $("<h3>");
+    var arrStorage =[];
+    var kurt ='';
+    
+    var storedAppointments = JSON.parse(localStorage.getItem("appointments"));
 
-    var storedAppointments = JSON.parse(localStorage.getItem("appointment"));
+    // var storedAppointments = JSON.parse(localStorage.getItem("appointment"));
  // appends current date //
 
     header.text(currentDay);
@@ -52,7 +57,17 @@
         var textArea = $("<textarea>");
         textArea.attr("data-index",i);
         textArea.addClass("entries");
-    
+        
+         if (storedAppointments !==null){
+             for(var j=0; j<storedAppointments.length; j++){
+                 console.log(storedAppointments[j].idx);
+                 console.log(storedAppointments[j].entry)
+                if(storedAppointments[j].idx === i){
+                  textArea.text(storedAppointments[j].entry);
+                     
+                 }
+             }
+         }
     
         hourEntries.append(textArea);
         var saveBtn = $("<button>");
@@ -64,7 +79,7 @@
         hoursOfDay.append(hourEntries);
 
     // shading depending upon the hour //
-
+    
         if (presentCounter === currentHour)
         {textArea.addClass("present")
         };
@@ -79,7 +94,7 @@
 
         counter ++;
         presentCounter ++;
-
+        idxCounter++;
         
     }
 
@@ -91,20 +106,22 @@
         var textInput  = textArea.val();
        
         var parentIndex = $(this).parent().index();
+       
+
       
-        var abc = $('.entries[data-index='+parentIndex+']').val()
+        var hourEntry = $('.entries[data-index='+parentIndex+']').val()
+    
+        var savedEntries = { entry: hourEntry,
+                             idx: parentIndex
+        }
+
         
-        var saveData = abc +" - " +parentIndex ;
+        arrStorage.push(savedEntries);
+        console.log(savedEntries);
+      
+         localStorage.setItem("appointments", JSON.stringify(arrStorage));
 
-
-
-        var existStorage = JSON.parse(localStorage.getItem("appointment"));
-          if(existStorage ===null){
-             existStorage = [];
-          };
-          existStorage.push(saveData);
-          localStorage.setItem("appointment", JSON.stringify(existStorage));
-          console.log(existStorage);
+        
         
     });
    
